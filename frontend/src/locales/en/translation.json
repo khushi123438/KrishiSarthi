@@ -1,0 +1,168 @@
+{
+  "brand": {
+    "name": "KrishiSarthi",
+    "tagline": "From Farm to Market, Your Trusted Partner",
+    "tagline_hindi": "खेत से बाज़ार तक, आपका साथी।",
+    "sub_loader": "Growing Something Better..."
+  },
+  "nav": {
+    "home": "Home",
+    "marketplace": "Marketplace",
+    "how_it_works": "How It Works",
+    "about": "About Us",
+    "contact": "Contact",
+    "weather_mandi": "Weather & Mandi",
+    "trace_qr": "Traceability QR",
+    "login": "Login",
+    "get_started": "Get Started",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "admin": "Admin Console",
+    "language": "हिन्दी"
+  },
+  "hero": {
+    "badge": "Smart Agri Marketplace & Direct Supply Chain",
+    "title_main": "Your Harvest.",
+    "title_highlight": "Your Market.",
+    "title_sub": "Your Fair Price.",
+    "desc": "Connect directly with verified buyers, discover fair crop prices and deliver your harvest with transparent logistics and 100% escrow protection.",
+    "cta_explore": "Explore Marketplace",
+    "cta_how": "How It Works",
+    "stat_farmers": "Active Farmers",
+    "stat_buyers": "Direct Buyers",
+    "stat_gmv": "Trade Volume",
+    "stat_payout": "Instant Payout"
+  },
+  "features": {
+    "title": "Why Farmers & Buyers Choose KrishiSarthi",
+    "subtitle": "Eliminating intermediaries, reducing wastage, and securing payments with cutting-edge technology.",
+    "f1_title": "Direct Connections",
+    "f1_desc": "Eliminate commission agents (aarhtiyas). Trade directly with millers, food processors, and bulk retailers.",
+    "f2_title": "Fair Pricing Intelligence",
+    "f2_desc": "Real-time MSP and wholesale mandi reference index so you know the exact intrinsic value of your produce.",
+    "f3_title": "Smart Logistics & GPS",
+    "f3_desc": "Distance and load-optimized transport booking with live truck route telemetry and transparent freight bidding.",
+    "f4_title": "100% Escrow & Verified Buyers",
+    "f4_desc": "Funds are securely deposited prior to transit and disbursed automatically upon delivery verification."
+  },
+  "market_preview": {
+    "badge": "Live Produce Grid",
+    "title": "Fresh Farm Harvests Ready for Procurement",
+    "subtitle": "Discover certified grain, pulse, vegetable, and cash crop listings directly from farmers.",
+    "view_all": "View Full Marketplace",
+    "btn_offer": "Make Price Offer",
+    "grade": "Grade",
+    "qty": "Available",
+    "listed_at": "Listed at",
+    "farm": "Farm"
+  },
+  "intelligence": {
+    "badge": "Fair Price Discovery",
+    "title": "Know Your Crop's Real Worth",
+    "subtitle": "Transparent price breakdown showing mandi benchmarks versus direct KrishiSarthi net realizations.",
+    "mandi_benchmark": "Mandi Benchmark Rate",
+    "direct_offer": "Direct Buyer Bid",
+    "transport_saving": "Direct Logistics Saving",
+    "middleman_cut": "Commission Saved (0% fee)",
+    "farmer_net": "Farmer Estimated Net Earnings",
+    "comparison_note": "Based on actual grain transactions across Haryana, Punjab, and Uttar Pradesh mandis."
+  },
+  "logistics": {
+    "badge": "Integrated Cold & Dry Freight",
+    "title": "Smart Logistics from Farm Gate to Mandi",
+    "subtitle": "Optimized delivery routing with verified commercial transporters and live GPS tracking.",
+    "card1_title": "Weight & Distance Engine",
+    "card1_desc": "Transparent per-quintal and per-km pricing calibrated to current diesel rates.",
+    "card2_title": "Vehicle Recommendations",
+    "card2_desc": "Matching your produce volume with the ideal carrier: Mini Truck (1.5T), 6-Tyre (9T), or 10-Tyre (16T).",
+    "card3_title": "Transporter Bidding",
+    "card3_desc": "Drivers place competitive bids so you always get the most economical transport quote.",
+    "card4_title": "Live GPS Tracking",
+    "card4_desc": "Both farmer and buyer monitor truck milestones, route polylines, and delivery ETAs."
+  },
+  "steps": {
+    "badge": "Simple 4-Step Process",
+    "title": "How KrishiSarthi Works",
+    "step1_title": "1. List Your Crop",
+    "step1_desc": "Post your harvest via text or our Hindi Voice Assistant. Generate your batch QR code instantly.",
+    "step2_title": "2. Connect With Buyers",
+    "step2_desc": "Receive direct price offers from verified bulk buyers across India without middlemen.",
+    "step3_title": "3. Choose The Best Deal",
+    "step3_desc": "Accept the highest bid or propose a counter-offer. Order is confirmed upon acceptance.",
+    "step4_title": "4. Deliver & Get Paid",
+    "step4_desc": "Assigned transporter picks up the cargo. Once delivery is verified, escrow payment is released instantly."
+  },
+  "cta": {
+    "title": "Grow Better. Trade Smarter.",
+    "desc": "Join thousands of farmers, wholesale buyers, and commercial transporters building India's premier digital agricultural network.",
+    "btn_start": "Get Started Today",
+    "btn_browse": "Explore Marketplace"
+  },
+  "footer": {
+    "desc": "KrishiSarthi is India's leading Smart Agricultural Marketplace and transparent farm supply chain platform.",
+    "quick_links": "Quick Links",
+    "marketplace_links": "Marketplace",
+    "legal": "Legal & Compliance",
+    "contact": "Contact Support",
+    "copyright": "All rights reserved. Built with pride for Indian Farmers."
+  },
+  "auth": {
+    "login_title": "Welcome Back to KrishiSarthi",
+    "login_desc": "Sign in to access your dashboard, orders, and market telemetry.",
+    "register_title": "Join KrishiSarthi Platform",
+    "register_desc": "Select your role to start trading, procuring, or hauling harvests.",
+    "phone_email": "Phone Number or Username",
+    "password": "Password",
+    "full_name": "Full Name",
+    "location": "City / Village & District",
+    "role_select": "Choose Your Role",
+    "role_farmer": "Farmer (किसान)",
+    "role_buyer": "Buyer / Trader (खरीदार)",
+    "role_transporter": "Transporter (ट्रांसपोर्टर)",
+    "btn_login": "Sign In to Account",
+    "btn_register": "Complete Free Registration",
+    "forgot_pass": "Forgot Password?",
+    "dont_have_acc": "Don't have an account?",
+    "already_have_acc": "Already registered?",
+    "quick_demo": "Quick Demo Test Accounts (1-Click)"
+  },
+  "farmer": {
+    "dashboard_title": "Farmer Command Center",
+    "welcome": "Namaste",
+    "active_crops": "Active Crops",
+    "received_offers": "Received Offers",
+    "active_orders": "Active Orders",
+    "escrow_earnings": "Escrow Settlement",
+    "btn_sell": "+ Sell Crop (फसल बेचें)",
+    "btn_offers": "Review Offers",
+    "voice_ai_title": "Voice AI Crop Listing",
+    "voice_ai_hint": "Speak in Hindi or English (e.g. 'मेरे पास 50 क्विंटल शरबती गेहूँ ₹2400 में है')"
+  },
+  "buyer": {
+    "dashboard_title": "Buyer Procurement Hub",
+    "orders": "My Orders",
+    "offers": "My Bids",
+    "btn_pay": "Pay via Razorpay",
+    "gps_track": "Live GPS Route"
+  },
+  "transporter": {
+    "dashboard_title": "Transporter Freight Hub",
+    "open_loads": "Available Freight Loads",
+    "trips": "My Active Trips",
+    "btn_bid": "Place Freight Bid",
+    "btn_pod": "Upload Proof of Delivery"
+  },
+  "admin": {
+    "dashboard_title": "Platform Administration",
+    "gmv": "Gross Merchandise Value",
+    "revenue": "Platform Revenue (2%)",
+    "kyc_queue": "KYC Approval Queue",
+    "users": "User Registry",
+    "audit": "Audit Log"
+  },
+  "ai": {
+    "title": "Kisan Mitra AI",
+    "subtitle": "Your Multilingual Agricultural Advisor",
+    "placeholder": "Ask about crop diseases, MSP prices, or weather..."
+  }
+}

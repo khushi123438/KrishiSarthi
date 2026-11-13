@@ -1,0 +1,328 @@
+-- V1: KrishiSarthi Platform Initial Schema
+
+-- 1. Users Table
+CREATE TABLE IF NOT EXISTS users (
+    id BIGSERIAL PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    mobile VARCHAR(20) NOT NULL UNIQUE,
+    hashed_password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL, -- FARMER, BUYER, TRANSPORTER, ADMIN
+    preferred_language VARCHAR(10) DEFAULT 'hi',
+    is_active BOOLEAN DEFAULT TRUE,
+    is_verified BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Farmer Profiles
+CREATE TABLE IF NOT EXISTS farmer_profiles (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+    village VARCHAR(100),
+    district VARCHAR(100),
+    state VARCHAR(100),
+    pincode VARCHAR(10),
+    primary_crops TEXT,
+    experience_years INT DEFAULT 0,
+    rating DOUBLE PRECISION DEFAULT 5.0,
+    total_sales_count INT DEFAULT 0
+);
+
+-- 3. Buyer Profiles
+CREATE TABLE IF NOT EXISTS buyer_profiles (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+    company_name VARCHAR(150),
+    buyer_type VARCHAR(50) DEFAULT 'Wholesaler',
+    gst_number VARCHAR(30),
+    city VARCHAR(100),
+    state VARCHAR(100),
+    rating DOUBLE PRECISION DEFAULT 5.0,
+    total_purchases_count INT DEFAULT 0
+);
+
+-- 4. Transporter Profiles
+CREATE TABLE IF NOT EXISTS transporter_profiles (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+    agency_name VARCHAR(150),
+    vehicle_type VARCHAR(50),
+    vehicle_number VARCHAR(30),
+    capacity_tons DOUBLE PRECISION DEFAULT 5.0,
+    operating_routes TEXT,
+    rating DOUBLE PRECISION DEFAULT 5.0,
+    total_deliveries_count INT DEFAULT 0
+);
+
+-- 5. KYC Records
+CREATE TABLE IF NOT EXISTS kyc_records (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    document_type VARCHAR(50) NOT NULL,
+    document_number VARCHAR(50) NOT NULL,
+    document_image_url VARCHAR(255),
+    status VARCHAR(20) DEFAULT 'PENDING', -- PENDING, UNDER_REVIEW, APPROVED, REJECTED
+    rejection_reason TEXT,
+    reviewed_at TIMESTAMP WITHOUT TIME ZONE,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 6. Farms
+CREATE TABLE IF NOT EXISTS farms (
+    id BIGSERIAL PRIMARY KEY,
+    farmer_profile_id BIGINT NOT NULL REFERENCES farmer_profiles(id) ON DELETE CASCADE,
+    farm_name VARCHAR(100) NOT NULL,
+    size_acres DOUBLE PRECISION DEFAULT 1.0,
+    soil_type VARCHAR(50),
+    irrigation_source VARCHAR(50),
+    village VARCHAR(100),
+    district VARCHAR(100),
+    state VARCHAR(100)
+);
+
+-- 7. Crop Listings
+CREATE TABLE IF NOT EXISTS crop_listings (
+    id BIGSERIAL PRIMARY KEY,
+    farmer_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    farm_id BIGINT REFERENCES farms(id) ON DELETE SET NULL,
+    crop_name VARCHAR(100) NOT NULL,
+    variety VARCHAR(100) NOT NULL,
+    quantity DOUBLE PRECISION NOT NULL,
+    unit VARCHAR(20) DEFAULT 'kg',
+    expected_price_per_unit DOUBLE PRECISION NOT NULL,
+    quality_grade VARCHAR(20) DEFAULT 'Grade A',
+    harvest_date TIMESTAMP WITHOUT TIME ZONE,
+    location_district VARCHAR(100) NOT NULL,
+    location_state VARCHAR(100) NOT NULL,
+    description TEXT,
+    status VARCHAR(20) DEFAULT 'PUBLISHED', -- DRAFT, PUBLISHED, PAUSED, SOLD, EXPIRED, CANCELLED
+    views_count INT DEFAULT 0,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 8. Crop Images
+CREATE TABLE IF NOT EXISTS crop_images (
+    id BIGSERIAL PRIMARY KEY,
+    crop_listing_id BIGINT NOT NULL REFERENCES crop_listings(id) ON DELETE CASCADE,
+    image_url VARCHAR(255) NOT NULL,
+    is_primary BOOLEAN DEFAULT FALSE,
+    uploaded_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 9. Crop Batches (Traceability)
+CREATE TABLE IF NOT EXISTS crop_batches (
+    id BIGSERIAL PRIMARY KEY,
+    batch_code VARCHAR(50) NOT NULL UNIQUE,
+    crop_listing_id BIGINT NOT NULL REFERENCES crop_listings(id) ON DELETE CASCADE,
+    farmer_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    harvest_date TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    packaging_date TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    origin_location VARCHAR(150) NOT NULL,
+    qr_code_url VARCHAR(255),
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 10. Traceability Events
+CREATE TABLE IF NOT EXISTS traceability_events (
+    id BIGSERIAL PRIMARY KEY,
+    batch_id BIGINT NOT NULL REFERENCES crop_batches(id) ON DELETE CASCADE,
+    stage VARCHAR(50) NOT NULL,
+    location VARCHAR(150) NOT NULL,
+    description TEXT NOT NULL,
+    handler_name VARCHAR(100),
+    timestamp TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 11. Offers
+CREATE TABLE IF NOT EXISTS offers (
+    id BIGSERIAL PRIMARY KEY,
+    crop_listing_id BIGINT NOT NULL REFERENCES crop_listings(id) ON DELETE CASCADE,
+    buyer_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    farmer_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    offered_price_per_unit DOUBLE PRECISION NOT NULL,
+    offered_quantity DOUBLE PRECISION NOT NULL,
+    total_amount DOUBLE PRECISION NOT NULL,
+    status VARCHAR(20) DEFAULT 'PENDING', -- PENDING, ACCEPTED, REJECTED, COUNTERED, CANCELLED, EXPIRED
+    last_action_by BIGINT NOT NULL REFERENCES users(id),
+    note TEXT,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 12. Negotiations
+CREATE TABLE IF NOT EXISTS negotiations (
+    id BIGSERIAL PRIMARY KEY,
+    offer_id BIGINT NOT NULL REFERENCES offers(id) ON DELETE CASCADE,
+    sender_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    proposed_price_per_unit DOUBLE PRECISION NOT NULL,
+    proposed_quantity DOUBLE PRECISION NOT NULL,
+    action VARCHAR(50) NOT NULL,
+    message TEXT,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 13. Orders
+CREATE TABLE IF NOT EXISTS orders (
+    id BIGSERIAL PRIMARY KEY,
+    order_number VARCHAR(50) NOT NULL UNIQUE,
+    offer_id BIGINT NOT NULL REFERENCES offers(id) ON DELETE CASCADE,
+    crop_listing_id BIGINT NOT NULL REFERENCES crop_listings(id) ON DELETE CASCADE,
+    farmer_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    buyer_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    quantity DOUBLE PRECISION NOT NULL,
+    unit VARCHAR(20) DEFAULT 'kg',
+    price_per_unit DOUBLE PRECISION NOT NULL,
+    total_amount DOUBLE PRECISION NOT NULL,
+    status VARCHAR(30) DEFAULT 'CONFIRMED', -- CONFIRMED, PAYMENT_PENDING, PAID, TRANSPORT_ASSIGNED, IN_TRANSIT, DELIVERED, COMPLETED, CANCELLED
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 14. Payments
+CREATE TABLE IF NOT EXISTS payments (
+    id BIGSERIAL PRIMARY KEY,
+    order_id BIGINT NOT NULL UNIQUE REFERENCES orders(id) ON DELETE CASCADE,
+    buyer_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    amount DOUBLE PRECISION NOT NULL,
+    currency VARCHAR(10) DEFAULT 'INR',
+    razorpay_order_id VARCHAR(100),
+    razorpay_payment_id VARCHAR(100),
+    razorpay_signature VARCHAR(255),
+    status VARCHAR(20) DEFAULT 'PENDING', -- PENDING, PROCESSING, SUCCESS, FAILED, REFUNDED
+    payment_method VARCHAR(50) DEFAULT 'UPI/Razorpay',
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    verified_at TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- 15. Escrow Payouts (Production Settlement)
+CREATE TABLE IF NOT EXISTS escrow_payouts (
+    id BIGSERIAL PRIMARY KEY,
+    order_id BIGINT NOT NULL UNIQUE REFERENCES orders(id) ON DELETE CASCADE,
+    farmer_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    amount DOUBLE PRECISION NOT NULL,
+    platform_fee DOUBLE PRECISION NOT NULL,
+    net_payout DOUBLE PRECISION NOT NULL,
+    status VARCHAR(20) DEFAULT 'HELD_IN_ESCROW', -- HELD_IN_ESCROW, RELEASE_INITIATED, SETTLED, REFUNDED
+    bank_account_or_upi VARCHAR(100),
+    settlement_reference VARCHAR(100),
+    held_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    released_at TIMESTAMP WITHOUT TIME ZONE
+);
+
+-- 16. Reviews
+CREATE TABLE IF NOT EXISTS reviews (
+    id BIGSERIAL PRIMARY KEY,
+    order_id BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    reviewer_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    reviewee_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    rating INT NOT NULL,
+    comment TEXT,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 17. Disputes
+CREATE TABLE IF NOT EXISTS disputes (
+    id BIGSERIAL PRIMARY KEY,
+    dispute_number VARCHAR(50) NOT NULL UNIQUE,
+    order_id BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+    raised_by_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    reason VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    evidence_url VARCHAR(255),
+    status VARCHAR(30) DEFAULT 'OPEN', -- OPEN, UNDER_REVIEW, RESOLUTION_PROPOSED, RESOLVED, ESCALATED
+    resolution_notes TEXT,
+    resolved_at TIMESTAMP WITHOUT TIME ZONE,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 18. Transport Requests
+CREATE TABLE IF NOT EXISTS transport_requests (
+    id BIGSERIAL PRIMARY KEY,
+    order_id BIGINT UNIQUE REFERENCES orders(id) ON DELETE SET NULL,
+    pickup_location VARCHAR(200) NOT NULL,
+    delivery_location VARCHAR(200) NOT NULL,
+    crop_type VARCHAR(100) NOT NULL,
+    quantity_kg DOUBLE PRECISION NOT NULL,
+    pickup_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    preferred_vehicle VARCHAR(50) DEFAULT 'Truck',
+    status VARCHAR(30) DEFAULT 'OPEN', -- OPEN, BIDDING_ACTIVE, BID_SELECTED, CANCELLED
+    selected_bid_id BIGINT,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 19. Transporter Bids
+CREATE TABLE IF NOT EXISTS transporter_bids (
+    id BIGSERIAL PRIMARY KEY,
+    transport_request_id BIGINT NOT NULL REFERENCES transport_requests(id) ON DELETE CASCADE,
+    transporter_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    bid_amount DOUBLE PRECISION NOT NULL,
+    vehicle_details VARCHAR(100),
+    estimated_delivery_hours INT DEFAULT 24,
+    note TEXT,
+    is_accepted BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 20. Shipments
+CREATE TABLE IF NOT EXISTS shipments (
+    id BIGSERIAL PRIMARY KEY,
+    shipment_code VARCHAR(50) NOT NULL UNIQUE,
+    transport_request_id BIGINT NOT NULL UNIQUE REFERENCES transport_requests(id) ON DELETE CASCADE,
+    transporter_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    order_id BIGINT REFERENCES orders(id) ON DELETE SET NULL,
+    current_status VARCHAR(30) DEFAULT 'TRANSPORT_ASSIGNED',
+    pickup_time TIMESTAMP WITHOUT TIME ZONE,
+    delivered_time TIMESTAMP WITHOUT TIME ZONE,
+    current_lat DOUBLE PRECISION,
+    current_lng DOUBLE PRECISION,
+    eta_text VARCHAR(50),
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 21. Shipment Events
+CREATE TABLE IF NOT EXISTS shipment_events (
+    id BIGSERIAL PRIMARY KEY,
+    shipment_id BIGINT NOT NULL REFERENCES shipments(id) ON DELETE CASCADE,
+    status VARCHAR(30) NOT NULL,
+    location VARCHAR(150),
+    notes TEXT,
+    updated_by_id BIGINT NOT NULL REFERENCES users(id),
+    timestamp TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 22. Delivery Proofs
+CREATE TABLE IF NOT EXISTS delivery_proofs (
+    id BIGSERIAL PRIMARY KEY,
+    shipment_id BIGINT NOT NULL UNIQUE REFERENCES shipments(id) ON DELETE CASCADE,
+    photo_url VARCHAR(255) NOT NULL,
+    recipient_name VARCHAR(100) NOT NULL,
+    notes TEXT,
+    uploaded_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 23. Notifications
+CREATE TABLE IF NOT EXISTS notifications (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    title VARCHAR(150) NOT NULL,
+    message TEXT NOT NULL,
+    type VARCHAR(50) DEFAULT 'info',
+    link_url VARCHAR(255),
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 24. Audit Logs
+CREATE TABLE IF NOT EXISTS audit_logs (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT REFERENCES users(id) ON DELETE SET NULL,
+    action VARCHAR(100) NOT NULL,
+    entity_type VARCHAR(50),
+    entity_id BIGINT,
+    details TEXT,
+    ip_address VARCHAR(50),
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
