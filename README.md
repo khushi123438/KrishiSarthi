@@ -1,6 +1,4 @@
-# 🌾 KrishiSarthi (FarmLink.in) – Smart Agricultural Marketplace & Supply Chain Platform
-
-> **Full-Stack Enterprise Migration: Python FastAPI & Vanilla JS &rarr; Java 21 + Spring Boot 3 & React 18 + Tailwind CSS**
+# 🌾 KrishiSarthi – Smart Agricultural Marketplace & Supply Chain Platform
 
 KrishiSarthi connects farmers directly with buyers and transporters with transparent wholesale pricing, 100% escrow-backed instant settlements, and cryptographic crop batch QR traceability.
 
