@@ -1,131 +1,162 @@
-# 🌾 KrishiSarthi (FarmLink.in) – Smart Agricultural Marketplace & Supply Chain Platform
+# 🌾 KrishiSarthi
+### Empowering Farmers. Connecting Markets. Simplifying Agriculture.
 
-> **Full-Stack Enterprise Migration: Python FastAPI & Vanilla JS &rarr; Java 21 + Spring Boot 3 & React 18 + Tailwind CSS**
-
-KrishiSarthi connects farmers directly with buyers and transporters with transparent wholesale pricing, 100% escrow-backed instant settlements, and cryptographic crop batch QR traceability.
+KrishiSarthi is a technology-driven agricultural marketplace that bridges the gap between farmers and buyers by enabling direct trade, transparent pricing, and smarter logistics. It brings farmers, buyers, transporters, and administrators together on one integrated digital platform.
 
 ---
 
-## 🏗️ Architecture & Technology Stack
+## 🌱 The Vision
 
-### Backend
-- **Language**: Java 21 (LTS)
-- **Framework**: Spring Boot 3.3.4
-- **Security**: Spring Security 6 + JJWT 0.12.6 + BCrypt Password Hashing
-- **Data Persistence**: Spring Data JPA + Hibernate ORM
-- **Database**: PostgreSQL 16 + Flyway Schema Migrations (`V1__initial_schema.sql`, `V2__seed_initial_data.sql`)
-- **API Documentation**: OpenAPI 3.0 / Swagger UI (`/swagger-ui.html`)
-- **Build Tool**: Apache Maven
+Agriculture is the backbone of our economy, yet farmers often struggle with middlemen, unfair pricing, limited market access, and transportation challenges.
+
+**KrishiSarthi aims to change that.**
+
+Our vision is to create a transparent and accessible agricultural ecosystem where farmers receive fair value for their produce, buyers get direct market access, and transportation becomes smarter and more efficient.
+
+## ✨ Key Features
+
+- 🌾 **Direct Marketplace:** Connect farmers directly with buyers.
+- 💰 **Transparent Pricing:** Promote fair and competitive crop prices.
+- 🚚 **Smart Logistics:** Delivery charges calculated based on quantity and distance.
+- 📦 **Order Management:** Manage orders from placement to delivery.
+- 📍 **Delivery Tracking:** Monitor transportation and order status.
+- 🔔 **Smart Notifications:** Stay updated with important activities.
+- 📊 **Analytics Dashboard:** Access meaningful marketplace insights.
+- 🔐 **Secure Access:** Role-based authentication and authorization.
+- 🤝 **Integrated Ecosystem:** One platform for all agricultural stakeholders.
+
+## 👥 Four User Roles
+
+KrishiSarthi provides dedicated dashboards and functionality for four different users.
+
+### 1. 🌾 Farmer
+- Register and manage farmer profiles.
+- List crops with quantity, quality, and expected prices.
+- Manage product availability.
+- Receive and process buyer orders.
+- Track sales and earnings.
+
+### 2. 🛒 Buyer
+- Explore available agricultural products.
+- Compare crop prices and quantities.
+- Place orders directly with farmers.
+- View order and payment status.
+- Track deliveries.
+
+### 3. 🚚 Transporter
+- View assigned delivery requests.
+- Accept and manage transportation orders.
+- View pickup and delivery details.
+- Update shipment status.
+- Manage delivery history and earnings.
+
+### 4. 🛡️ Admin
+- Manage farmers, buyers, and transporters.
+- Monitor marketplace activities.
+- Manage products, orders, and disputes.
+- Oversee platform operations.
+- Access reports and analytics.
+
+## 🔄 How KrishiSarthi Works
+
+```text
+Farmer Registration
+        ↓
+Crop Listing & Pricing
+        ↓
+Buyer Explores Marketplace
+        ↓
+Direct Order Placement
+        ↓
+Smart Delivery Cost Calculation
+        ↓
+Transporter Assignment
+        ↓
+Pickup & Shipment Tracking
+        ↓
+Successful Delivery
+        ↓
+Order Completion
+```
+
+## 💡 What Makes KrishiSarthi Different?
+
+| Traditional Agriculture Trade | KrishiSarthi |
+|---|---|
+| Multiple intermediaries | Direct farmer-buyer connection |
+| Limited price transparency | Transparent crop pricing |
+| Manual logistics coordination | Integrated transportation |
+| Fragmented communication | Centralized platform |
+| Limited digital visibility | Real-time order updates |
+
+## 🛠️ Technology Stack
 
 ### Frontend
-- **Framework**: React 18 + Vite
-- **Styling**: Tailwind CSS + Custom Emerald Theme (`#059669`, `#047857`, `#D97706`)
-- **Routing**: React Router DOM v6 with Role-Based Route Guards
-- **Icons**: Lucide React
-- **HTTP Client**: Axios with JWT Interceptors & Auto Token Refresh
-- **Maps**: Leaflet + OpenStreetMap for Live GPS Vehicle Telemetry
-- **Voice AI**: Web Speech API (Speech-to-Text & Text-to-Speech in Hindi & English)
-- **Payments**: Razorpay Checkout SDK + HMAC SHA-256 Server Verification
+- React.js
+- JavaScript
+- Tailwind CSS
+- HTML5 & CSS3
 
-### Orchestration & Deployment
-- **Containerization**: Docker Multi-Stage Builds (Maven + Alpine JRE, Node + Nginx)
-- **Service Mesh**: Docker Compose (PostgreSQL, Spring Boot Backend, Nginx React Frontend)
+### Backend
+- Java
+- Spring Boot
+- Spring Security
+- Spring Data JPA
+- RESTful APIs
+- Hibernate
 
----
+### Database
+- PostgreSQL
 
-## 🚀 Quick Start with Docker Compose
+### Development & Tools
+- Git & GitHub
+- Postman
+- Maven
+- Docker
 
-Launch the entire ecosystem (Database, Java Spring Boot Backend, and React Frontend) with a single command:
+## 🏗️ Project Architecture
 
-```bash
-docker-compose up --build
+```text
+             KRISHISARTHI
+                   |
+          React.js Frontend
+                   |
+             REST APIs
+                   |
+          Spring Boot Backend
+                   |
+       ------------------------
+       |          |           |
+    Security   Business    Services
+       |        Logic         |
+       ------------------------
+                   |
+              PostgreSQL
 ```
 
-- **Frontend Application**: [http://localhost](http://localhost) (or port 80)
-- **Backend API**: [http://localhost:8080/api/v1](http://localhost:8080/api/v1)
-- **Swagger UI**: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
-- **Public Traceability Verification**: [http://localhost/trace?batch=KB-2026-WHT-001](http://localhost/trace?batch=KB-2026-WHT-001)
+## 🔒 Security & Reliability
+
+- Role-based access control.
+- Secure user authentication.
+- Backend input validation.
+- Protected API endpoints.
+- Secure handling of application credentials.
+- Consistent data management.
+
+## 🎯 Our Mission
+
+To empower India's agricultural community through technology, eliminate unnecessary barriers in agricultural trade, and build a fair, transparent, and connected marketplace.
 
 ---
 
-## 🛠️ Local Development Setup
+## 🚀 Project Status
 
-### 1. Backend (Spring Boot 3)
-```bash
-cd backend
+**Development in Progress**
 
-# Run with development profile (H2 in-memory or local Postgres)
-./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
-```
-The server will start on `http://localhost:8080`.
+KrishiSarthi is being developed as a full-stack agricultural marketplace with a focus on usability, scalability, transparency, and real-world agricultural challenges.
 
-### 2. Frontend (React + Vite)
-```bash
-cd frontend
+## 👩‍💻 Built With Purpose
 
-# Install dependencies
-npm install
+Created with the vision of making agricultural trade smarter, fairer, and more accessible.
 
-# Start Vite dev server with backend proxy
-npm run dev
-```
-The client will start on `http://localhost:5173` with automatic `/api` proxy to `http://localhost:8080`.
-
----
-
-## 👥 Seed Accounts for Testing
-
-| Role | Username / Phone | Password | Features Tested |
-| :--- | :--- | :--- | :--- |
-| **Farmer** | `9876543210` | `password123` | Sell Crop (+ Voice AI), Batch QR, Received Offers, Counter-Offers, Escrow Payout |
-| **Farmer 2** | `9876543211` | `password123` | Active listings, batch certificates |
-| **Buyer** | `9876543212` | `password123` | Marketplace search, Price Offers, Razorpay Checkout, GPS Tracking |
-| **Transporter** | `9876543213` | `password123` | Freight Loads, Freight Bidding, Broadcast Live GPS, POD Upload |
-| **Platform Admin** | `admin@farmlink.in` | `Admin@12345` | Master Console, KYC Approval Queue, GMV & 2% Revenue, Security Audit Logs |
-
-*Note: One-click demo login buttons are provided directly inside the UI login modal for instantaneous testing.*
-
----
-
-## 📦 Preserved & Enhanced Workflows
-
-### 1. Farmer Crop Listing & Cryptographic Traceability
-1. Farmer lists crop via typing or speaking via **Voice AI** (e.g., *"मेरे पास 50 क्विंटल शरबती गेहूँ ₹2400 में है"*).
-2. Gemini AI parses the voice into structured crop attributes.
-3. System automatically generates a **Unique Batch ID** (`KB-YYYY-CROP-SEQ`) and stores the **Initial Harvest Event**.
-4. The QR code is instantly verifiable via the public route `/trace?batch=...` **without requiring authentication**.
-
-### 2. Buyer Offer, Negotiation & Order Creation
-1. Buyer searches marketplace with filters (Grade, Crop, State).
-2. Submits a price offer per quintal with requested quantity.
-3. Farmer receives notification and can **Accept**, **Reject**, or propose a **Counter-Offer**.
-4. Upon Farmer acceptance, a confirmed **Order** is automatically generated.
-
-### 3. Razorpay Payment & Escrow Protection
-1. Buyer initiates checkout via `/api/v1/payment/create-order`.
-2. Completes payment via Razorpay.
-3. Spring Boot backend performs **HMAC SHA-256 Signature Verification** to ensure zero fraud.
-4. Funds are placed into **KrishiSarthi Escrow Shield** (2% platform commission deducted, net payout held safely for farmer).
-5. A **Transport Request** is automatically triggered for transporters to bid.
-
-### 4. Transporter Bidding, Live GPS & Delivery Proof
-1. Transporters view open freight loads and submit quotes.
-2. Winning transporter picks up the cargo and updates milestone (`PICKED_UP`, `IN_TRANSIT`, `ARRIVED`, `DELIVERED`).
-3. Buyer and farmer view real-time **Leaflet GPS route visualization** with vehicle number and live coordinates.
-4. Driver uploads physical **Proof of Delivery (POD)** with receiver signature.
-5. Buyer confirms handover, automatically releasing **Escrow Payout** to the farmer's bank/UPI account.
-
-### 5. Kisan Mitra AI (Google Gemini)
-- Available 24/7 at the bottom-right floating button.
-- Multilingual conversational agricultural advisor in **Hindi and Hinglish**.
-- Database-aware context: incorporates active orders, listings, and live weather.
-- Web Speech API integration for voice speech output (TTS) and voice question input (STT).
-
----
-
-## 🔒 Security & Compliance
-- Full Role-Based Access Control (`FARMER`, `BUYER`, `TRANSPORTER`, `ADMIN`).
-- Zero API secrets or Razorpay keys exposed in frontend code.
-- Public QR traceability route decoupled from JWT authentication filters.
-- Global exception handling with clean REST JSON responses.
-- Database auditing records with immutable user timestamps and IP tracking.
+**KrishiSarthi — Technology for Farmers, Opportunity for Everyone.** 🌱
