@@ -1,10 +1,6 @@
 # 🌾 KrishiSarthi
 ### Empowering Farmers. Connecting Markets. Simplifying Agriculture.
 
-<p align="center">
-  <b>A Smarter Way to Grow, Trade & Deliver.</b>
-</p>
-
 KrishiSarthi is a technology-driven agricultural marketplace that bridges the gap between farmers and buyers by enabling direct trade, transparent pricing, and smarter logistics. It brings farmers, buyers, transporters, and administrators together on one integrated digital platform.
 
 ---
